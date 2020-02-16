@@ -1,7 +1,8 @@
 package com.ningmeng.test.config;
 
-import org.mapstruct.Qualifier;
-import org.springframework.amqp.core.*;
+import org.springframework.amqp.core.Exchange;
+import org.springframework.amqp.core.ExchangeBuilder;
+import org.springframework.amqp.core.Queue;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -33,17 +34,16 @@ public class rabbitConfig {
     /**
      *
      绑定队列到交换机 */
-    @Bean
+
+       /* @Bean
     public Binding BINDING_QUEUE_INFORM_SMS(@Qualifier(EXCHANGE_TOPICS_INFORM) Exchange exchange,
                                             @Qualifier(QUEUE_INFORM_SMS) Queue queue) {
-        
         return BindingBuilder.bind(queue).to(exchange).with("inform.#.sms.#").noargs();
     }
 
         @Bean
     public Binding BINDING_QUEUE_INFORM_EMAIL(@Qualifier(EXCHANGE_TOPICS_INFORM) Exchange exchange,
-                                            @Qualifier(QUEUE_INFORM_BMAIL) Queue queue) {
-        
+                                            @Qualifier(QUEUE_INFORM_BMAIL) Queue queue) {   
         return BindingBuilder.bind(queue).to(exchange).with("inform.#.email.#").noargs();
-    }
+    }*/
 }

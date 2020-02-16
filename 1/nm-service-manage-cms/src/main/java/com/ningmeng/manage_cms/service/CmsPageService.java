@@ -1,5 +1,6 @@
 package com.ningmeng.manage_cms.service;
 
+import com.alibaba.fastjson.JSON;
 import com.ningmeng.framework.domain.cms.CmsPage;
 import com.ningmeng.framework.domain.cms.request.QueryPageRequest;
 import com.ningmeng.framework.domain.cms.response.CmsPageResult;
@@ -7,7 +8,9 @@ import com.ningmeng.framework.model.response.CommonCode;
 import com.ningmeng.framework.model.response.QueryResponseResult;
 import com.ningmeng.framework.model.response.QueryResult;
 import com.ningmeng.framework.model.response.ResponseResult;
+import com.ningmeng.manage_cms.config.RabbitmqConfig;
 import com.ningmeng.manage_cms.dao.CmsPageRepository;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -15,6 +18,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -24,6 +29,36 @@ import java.util.Optional;
 public class CmsPageService {
    @Autowired
     private CmsPageRepository cmsPageRepository;
+   @Autowired
+   private RabbitTemplate rabbitTemplate;
+
+   //发布页面方法
+    public ResponseResult postPage(String pageId){
+        boolean flag=createHtml();
+        if(!flag){
+            /*CustomExceptionCast.cast(CommonCode.FAIL);*/
+            System.out.println("操作失败");
+        }
+        //查询数据库
+        CmsPage cmsPage=this.findById(pageId);
+        if(cmsPage==null){
+            System.out.println("操作失败");
+        }
+        Map<String,String> mapMsg=new HashMap<>();
+        mapMsg.put("pageId",pageId);
+        String msg= JSON.toJSONString(mapMsg);
+        //获取站点id作为routingkey
+        String siteId=cmsPage.getSiteId();
+        //发送json
+        rabbitTemplate.convertAndSend(RabbitmqConfig.EX_ROUTING_CMS_POSTPAGE,siteId,msg);
+        return new ResponseResult(CommonCode.SUCCESS);
+    }
+    //创建静态页面
+    private boolean createHtml(){
+        //成功
+        System.out.println("执行页面静态化程序，保存静态化文件完成.......");
+        return true;
+    }
 
    //删除方法
     public ResponseResult delete(String id){

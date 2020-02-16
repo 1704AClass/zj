@@ -14,6 +14,14 @@
       <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
+    <content url="file://$MODULE_DIR$/../../../../需要文件/tomcat">
+      <sourceFolder url="file://$MODULE_DIR$/../../../../需要文件/tomcat/apache-tomcat-7.0.75-windows-x64/apache-tomcat-7.0.75/webapps/examples/WEB-INF/jsp/applet" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../../需要文件/tomcat/apache-tomcat-7.0.75-windows-x64/apache-tomcat-7.0.75/webapps/docs/appdev/sample/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../../需要文件/tomcat/apache-tomcat-7.0.75-windows-x64/apache-tomcat-7.0.75/webapps/examples/WEB-INF/classes" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../../需要文件/tomcat/apache-tomcat-7.0.75-windows-x64/apache-tomcat-7.0.75/work/Catalina/localhost/_" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../../需要文件/tomcat/apache-tomcat-7.0.75-windows-x64/apache-tomcat-7.0.75/webapps/examples/jsp/plugin/applet" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../../需要文件/tomcat/apache-tomcat-7.0.75-windows-x64/apache-tomcat-7.0.75/work/Catalina/localhost/cas" isTestSource="false" />
+    </content>
     <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="nm-framework-model" />
