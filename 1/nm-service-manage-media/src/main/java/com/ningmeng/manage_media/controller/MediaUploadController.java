@@ -23,24 +23,24 @@ public class MediaUploadController implements MediaUploadControllerApi{
     @Override
     @PostMapping("/register")
     public ResponseResult register(String fileMd5, String fileName, Long fileSize, String mimetype, String fileExt) {
-        return null;
+        return mediaUploadService.register(fileMd5,fileName,fileSize,mimetype,fileExt);
     }
 
     @Override
     @PostMapping("/checkchunk")
     public CheckChunkResult checkchunk(String fileMd5, Integer chunk, Integer chunkSize) {
-        return null;
+        return mediaUploadService.checkchunk(fileMd5 ,chunk ,chunkSize);
     }
 
     @Override
     @PostMapping("/uploadchunk")
     public ResponseResult uploadchunk(MultipartFile file, Integer chunk, String fileMd5) {
-        return null;
+        return mediaUploadService.uploadchunk(file,fileMd5,chunk);
     }
 
     @Override
     @PostMapping("/mergechunks")
     public ResponseResult mergechunks(String fileMd5, String fileName, Long fileSize, String mimetype, String fileExt) {
-        return null;
+        return mediaUploadService.mergechunks(fileMd5,fileName,fileSize,mimetype,fileExt);
     }
 }

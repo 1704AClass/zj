@@ -31,7 +31,7 @@ public class MediaUploadService {
       @Autowired
       MediaFileRepository mediaFileRepository;
     //上传文件根目录
-     @Value("${nm‐service‐manage‐media.upload‐location}")
+     @Value("${nm-service-manage-media.upload-location}")
      String uploadPath;
 
      //获取文件跟目录 md5
@@ -66,7 +66,7 @@ public class MediaUploadService {
     }
 
     //文件上传注册
-    public ResponseResult register(String fileMd5, String fileName, String fileSize, String mimetype, String fileExt) {
+    public ResponseResult register(String fileMd5, String fileName, Long fileSize, String mimetype, String fileExt) {
         //检查文件是否上传 //1、得到文件的路径
         String filePath = getFilePath(fileMd5, fileExt);
         File file = new File(filePath);
@@ -88,7 +88,7 @@ public class MediaUploadService {
         return fileChunkFolderPath;
     }
     //检查块文件
-    public CheckChunkResult checkchunk(String fileMd5, String chunk, String chunkSize) {
+    public CheckChunkResult checkchunk(String fileMd5, Integer chunk, Integer chunkSize) {
         //得到块文件所在路径
         String chunkfileFolderPath = getChunkFileFolderPath(fileMd5);
         //块文件的文件名称以1,2,3..序号命名，没有扩展名
@@ -100,35 +100,39 @@ public class MediaUploadService {
         }
     }
     //块文件上传
-    public ResponseResult uploadchunk(MultipartFile file, String fileMd5, String chunk) {
-        if(file == null){
+    public ResponseResult uploadchunk(MultipartFile file, String fileMd5, Integer chunk) {
+        if (file == null) {
             CustomExceptionCast.cast(MediaCode.UPLOAD_FILE_REGISTER_FAIL);
         }
-    //创建块文件目录
-    boolean fileFold = createChunkFileFolder(fileMd5);
-    //块文件
-    File chunkfile = new File(getChunkFileFolderPath(fileMd5) + chunk);
-    //上传的块文件
-    InputStream inputStream= null; FileOutputStream outputStream = null;
-    try {inputStream = file.getInputStream();
-        outputStream = new FileOutputStream(chunkfile);
-        IOUtils.copy(inputStream,outputStream);
-    } catch (Exception e) {
-        e.printStackTrace();
-        LOGGER.error("upload chunk file fail:{}",e.getMessage());
-        CustomExceptionCast.cast(MediaCode.CHUNK_FILE_EXIST_CHECK);
-    }finally {
+        //创建块文件目录
+        boolean fileFold = createChunkFileFolder(fileMd5);
+        //块文件
+        File chunkfile = new File(getChunkFileFolderPath(fileMd5) + chunk);
+        //上传的块文件
+        InputStream inputStream = null;
+        FileOutputStream outputStream = null;
         try {
-            inputStream.close();
-        } catch (IOException e) {
+            inputStream = file.getInputStream();
+            outputStream = new FileOutputStream(chunkfile);
+            IOUtils.copy(inputStream, outputStream);
+        } catch (Exception e) {
             e.printStackTrace();
+            LOGGER.error("upload chunk file fail:{}", e.getMessage());
+            CustomExceptionCast.cast(MediaCode.CHUNK_FILE_EXIST_CHECK);
+        } finally {
+            try {
+                inputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                outputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-    try {
-            outputStream.close();
-    } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }return new ResponseResult(CommonCode.SUCCESS);
+        return new ResponseResult(CommonCode.SUCCESS);
+    }
 
     //创建块文件目录
     private boolean createChunkFileFolder(String fileMd5){
