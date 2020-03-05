@@ -91,7 +91,7 @@ public class TestProcessBuilder {
    @Test
     public void testFfmpeg1(){
         HlsVideoUtil hlsVideoUtil = new HlsVideoUtil("F:\\stu\\软件\\idea\\ffmpeg\\ffmpeg-20180227-fa0c9d6-win64-static\\bin\\ffmpeg.exe",
-               "D:\\teach\\ffmpeg\\haicaowu1111.mp4","haicaowu.m3u8","D:\\teach\\ffmpeg\\hls");
+               "D:\\teach\\ffmpeg\\haicaowu1111.mp4","haicaowu.m3u8","D:\\teach\\ffmpeg\\hls\\");
          String success = hlsVideoUtil.generateM3u8();
     }
 }
