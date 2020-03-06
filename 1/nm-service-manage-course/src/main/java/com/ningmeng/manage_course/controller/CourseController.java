@@ -2,6 +2,7 @@ package com.ningmeng.manage_course.controller;
 
 import com.ningmeng.framework.domain.course.CoursePic;
 import com.ningmeng.framework.domain.course.Teachplan;
+import com.ningmeng.framework.domain.course.TeachplanMedia;
 import com.ningmeng.framework.domain.course.ext.TeachplanNode;
 import com.ningmeng.framework.domain.course.response.CoursePublishResult;
 import com.ningmeng.framework.domain.course.response.CourseView;
@@ -38,6 +39,12 @@ public class CourseController implements CourseControllerApi{
     @PostMapping("/publish/{id}")
     public CoursePublishResult publish(@PathVariable("id") String id) {
         return courseService.publish(id);
+    }
+
+    @Override
+    @PostMapping("/savemedia")
+    public ResponseResult savemedia(@RequestBody TeachplanMedia teachplanMedia) {
+        return courseService.savemedia(teachplanMedia);
     }
 
 

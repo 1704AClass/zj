@@ -9,7 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 /**
  * Created by 周周 on 2020/3/4.
  */
-@Api(value = "媒资管理接口",description = "媒资管理接口，提供文件上传，文件处理等接口")
+@Api(value = "媒资管理接口",description = "媒资管理接口，提供文件上传，文件处理等接口",tags = "媒资管理")
 public interface MediaUploadControllerApi {
 
     @ApiOperation("文件上传注册")

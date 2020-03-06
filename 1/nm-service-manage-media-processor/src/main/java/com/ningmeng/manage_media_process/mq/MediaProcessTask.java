@@ -35,7 +35,7 @@ public class MediaProcessTask {
     @Autowired
     MediaFileRepository mediaFileRepository;
 
-    @RabbitListener(queues = "${nm-service-manage-media.mq.queue-media-processtask}")
+    @RabbitListener(queues = "${nm-service-manage-media.mq.queue-media-video-processor:}",containerFactory="customContainerFactory")
     public void receiveMediaProcessTask(String msg) throws IOException {
         Map msgMap = JSON.parseObject(msg, Map.class);
         LOGGER.info("receive media process task msg :{} ",msgMap);
