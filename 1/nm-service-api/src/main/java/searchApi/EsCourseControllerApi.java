@@ -1,6 +1,7 @@
 package searchApi;
 
 import com.ningmeng.framework.domain.course.CoursePub;
+import com.ningmeng.framework.domain.course.TeachplanMediaPub;
 import com.ningmeng.framework.domain.search.CourseSearchParam;
 import com.ningmeng.framework.model.response.QueryResponseResult;
 import io.swagger.annotations.Api;
@@ -21,4 +22,7 @@ public interface EsCourseControllerApi {
 
     @ApiOperation("根据id查询课程信息")
     public Map<String,CoursePub> getall(String id);
+
+    @ApiOperation("根据课程计划查询媒资信息")
+    public TeachplanMediaPub getmedia(String teachplanId);
 }

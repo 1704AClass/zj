@@ -4,7 +4,6 @@ import com.alibaba.druid.util.StringUtils;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.netflix.discovery.converters.Auto;
 import com.ningmeng.framework.domain.cms.CmsPage;
 import com.ningmeng.framework.domain.cms.response.CmsPostPageResult;
 import com.ningmeng.framework.domain.course.*;
@@ -27,6 +26,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -68,8 +68,22 @@ public class CourseService {
     CoursePubRepository coursePubRepository;
     @Autowired
     TeachplanMediaRepository teachplanMediaRepository;
+    @Autowired
+    TeachplanMediaPubRepository teachplanMediaPubRepository;
 
-    
+    //保存课程计划媒资信息
+    private void saveTeachplanMediaPub(String courseId){
+        //查询课程媒资信息
+        List<TeachplanMedia> teachplanMediaList = teachplanMediaRepository.findByCourseId(courseId);
+        //将课程计划媒资信息存储待索引表
+        teachplanMediaPubRepository.deleteByCourseId(courseId);
+        List<TeachplanMediaPub> teachplanMediaPubList = new ArrayList<>();
+        for(TeachplanMedia teachplanMedia:teachplanMediaList){
+            TeachplanMediaPub teachplanMediaPub =new TeachplanMediaPub();
+            BeanUtils.copyProperties(teachplanMedia,teachplanMediaPub);
+            teachplanMediaPubList.add(teachplanMediaPub);
+        }teachplanMediaPubRepository.saveAll(teachplanMediaPubList);
+    }
 
     //保存媒资信息
     public ResponseResult savemedia(TeachplanMedia teachplanMedia) {
@@ -164,7 +178,7 @@ public class CourseService {
     //课程发布
     @Transactional
     public CoursePublishResult publish(String courseId){
-        //课程信息
+        /*//课程信息
         CourseBase one = this.findCourseBaseById(courseId);
         //发布课程详情页面
         CmsPostPageResult cmsPostPageResult = publish_page(courseId);
@@ -176,11 +190,12 @@ public class CourseService {
         //更新课程状态
         this.saveCoursePubState(courseId);
         // 更新索引库
-        CoursePub coursePub = createCoursePub(courseId);
-        this.saveCoursePub(courseId,coursePub);
-
-        String pageUrl = cmsPostPageResult.getPageUrl();
-        return new CoursePublishResult(CommonCode.SUCCESS,pageUrl);
+        CoursePub coursePub = createCoursePub(courseId);*/
+        //更新课程媒资计划
+        //this.saveCoursePub(courseId,coursePub);
+         this.saveTeachplanMediaPub(courseId);
+        //String pageUrl = cmsPostPageResult.getPageUrl();
+        return new CoursePublishResult(CommonCode.SUCCESS,"");
     }
     //更新课程发布状态
     private CourseBase saveCoursePubState(String courseId){
