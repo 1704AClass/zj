@@ -4,6 +4,7 @@ import com.ningmeng.framework.domain.course.CoursePic;
 import com.ningmeng.framework.domain.course.Teachplan;
 import com.ningmeng.framework.domain.course.TeachplanMedia;
 import com.ningmeng.framework.domain.course.ext.TeachplanNode;
+import com.ningmeng.framework.domain.course.request.CourseListRequest;
 import com.ningmeng.framework.domain.course.response.CoursePublishResult;
 import com.ningmeng.framework.domain.course.response.CourseView;
 import com.ningmeng.framework.model.response.QueryResponseResult;
@@ -11,6 +12,7 @@ import com.ningmeng.framework.model.response.ResponseResult;
 import com.ningmeng.manage_course.service.CourseService;
 import courseapi.CourseControllerApi;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -24,6 +26,7 @@ public class CourseController implements CourseControllerApi{
     private CourseService courseService;
 
     @Override
+    @PreAuthorize("hasAuthority('course_find_view')")
     @GetMapping("/courseview/{id}")
     public CourseView courseview(@PathVariable("id") String id) {
         return courseService.getCoruseView(id);
@@ -60,11 +63,18 @@ public class CourseController implements CourseControllerApi{
     public ResponseResult addTeachplan(@RequestBody Teachplan teachplan) {
         return courseService.addTeachplan(teachplan);
     }
+
+
+
     //分页查询课程列表
     @Override
+    @PreAuthorize("hasAuthority('course_find_list')")
     @GetMapping("/course/findCourseListPage/{page}/{size}")
-    public QueryResponseResult findCourseListPage(@PathVariable("page") int page,@PathVariable("size") int pagesize, String id) {
-        return courseService.findCourseListPage(page,pagesize,id);
+    public QueryResponseResult findCourseListPage(@PathVariable("page") int page,
+                                                  @PathVariable("size") int pagesize,
+                                                  CourseListRequest courseListRequest) {
+
+        return courseService.findCourseListPage(page,pagesize,courseListRequest.getCompanyId());
     }
 
     @Override

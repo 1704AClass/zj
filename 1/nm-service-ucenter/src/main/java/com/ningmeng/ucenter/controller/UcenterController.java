@@ -25,4 +25,5 @@ public class UcenterController implements UcenterControllerApi{
         NmUserExt nmUser = userService.getUserExt(username);
         return nmUser;
     }
+
 }

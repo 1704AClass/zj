@@ -4,6 +4,7 @@ import com.ningmeng.framework.domain.course.CoursePic;
 import com.ningmeng.framework.domain.course.Teachplan;
 import com.ningmeng.framework.domain.course.TeachplanMedia;
 import com.ningmeng.framework.domain.course.ext.TeachplanNode;
+import com.ningmeng.framework.domain.course.request.CourseListRequest;
 import com.ningmeng.framework.domain.course.response.CoursePublishResult;
 import com.ningmeng.framework.domain.course.response.CourseView;
 import com.ningmeng.framework.model.response.QueryResponseResult;
@@ -24,7 +25,7 @@ public interface CourseControllerApi {
     public ResponseResult addTeachplan(Teachplan teachplan);
 
     @ApiOperation("分页查询课程列表")
-    public QueryResponseResult findCourseListPage(int page,int pagesize,String id);
+    public QueryResponseResult findCourseListPage(int page,int pagesize,CourseListRequest courseListRequest);
 
     @ApiOperation("添加课程图片")
     public ResponseResult addCoursePic(String courseId,String pic);
